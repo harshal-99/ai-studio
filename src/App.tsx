@@ -4,6 +4,7 @@ import {loadHistory, saveToHistory} from "./utils/storage";
 import {mockGenerate} from "./mockApi";
 import type {Generation, StyleOption} from "./types";
 import {History} from "./components/History.tsx";
+import {UploadInput} from "./components/UploadInput.tsx";
 
 const STYLES: StyleOption[] = ["Editorial", "Streetwear", "Vintage"];
 
@@ -157,39 +158,8 @@ export default function App() {
 				<main className="grid gap-6 md:grid-cols-3" role="main">
 					{/* Left Column: Upload & Controls */}
 					<section className="md:col-span-2 space-y-4">
-						{/* Upload */}
-						<div>
-							<label
-								htmlFor="file"
-								onDragOver={(e) => e.preventDefault()}
-								onDrop={onDrop}
-								className="flex cursor-pointer items-center justify-center rounded-lg border border-dashed border-gray-300 bg-white p-6 text-center hover:bg-gray-50 focus-within:ring-2 focus-within:ring-blue-500"
-								aria-label="Upload an image"
-							>
-								<div>
-									<p className="font-medium">Upload PNG/JPG (≤10MB)</p>
-									<p className="text-sm text-gray-600">Drag & drop or click to browse</p>
-								</div>
-								<input
-									id="file"
-									name="file"
-									type="file"
-									accept="image/png,image/jpeg"
-									onChange={onFileInputChange}
-									className="sr-only"
-								/>
-							</label>
-							{fileError && <p className="mt-2 text-sm text-red-600">{fileError}</p>}
-							{inputDataUrl && (
-								<div className="mt-3">
-									<img
-										src={inputDataUrl}
-										alt="Uploaded preview"
-										className="max-h-72 w-auto rounded-lg border"
-									/>
-								</div>
-							)}
-						</div>
+						<UploadInput fileError={fileError} inputDataUrl={inputDataUrl} onDrop={onDrop}
+						             onFileInputChange={onFileInputChange}/>
 
 						{/* Prompt & Style */}
 						<div className="grid gap-3 sm:grid-cols-3">
