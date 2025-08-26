@@ -19,7 +19,9 @@ export const Prompt: FC<PromptProps> = ({prompt, setPrompt, setStyle, style}) =>
 			<input
 				id="prompt"
 				value={prompt}
-				onChange={(e) => setPrompt(e.target.value)}
+				onChange={(e) => {
+					setPrompt(e.target.value)
+				}}
 				placeholder="e.g., ‘denim jacket with embroidered cranes’"
 				className="mt-1 w-full rounded-md border border-gray-300 bg-white p-2"
 			/>
@@ -31,7 +33,9 @@ export const Prompt: FC<PromptProps> = ({prompt, setPrompt, setStyle, style}) =>
 			<select
 				id="style"
 				value={style}
-				onChange={(e) => setStyle(e.target.value as StyleOption)}
+				onChange={(e) => {
+					setStyle(e.target.value as StyleOption)
+				}}
 				className="mt-1 w-full rounded-md border border-gray-300 bg-white p-2"
 			>
 				{STYLES.map((s) => (

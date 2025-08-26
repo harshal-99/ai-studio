@@ -17,7 +17,9 @@ export const History: FC<HistoryProps> = ({history, restoreFromHistory}) => {
 					{history.map((h) => (
 						<li key={h.id}>
 							<button
-								onClick={() => restoreFromHistory(h)}
+								onClick={() => {
+									restoreFromHistory(h)
+								}}
 								className="flex w-full items-center gap-3 rounded-md border p-2 text-left hover:bg-gray-50 focus-visible:bg-gray-50"
 								aria-label={`Restore generation ${h.id}`}
 							>

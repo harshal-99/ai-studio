@@ -66,8 +66,8 @@ export default function App() {
 	const onDrop = useCallback(
 		async (e: React.DragEvent<HTMLLabelElement>) => {
 			e.preventDefault();
-			const f = e.dataTransfer.files?.[0];
-			if (f) await onSelectFile(f);
+			const f = e.dataTransfer.files[0];
+			await onSelectFile(f);
 		},
 		[onSelectFile]
 	);
@@ -95,7 +95,7 @@ export default function App() {
 				attempt++;
 				try {
 					setStatusMsg(
-						attempt === 1 ? "Generating…" : `Retrying (attempt ${attempt}/${maxAttempts})…`
+						attempt === 1 ? "Generating…" : `Retrying (attempt ${attempt.toString()}/${maxAttempts.toString()})…`
 					);
 					const result = await mockGenerate(
 						{imageDataUrl, prompt: promptText, style: chosenStyle},
@@ -115,10 +115,7 @@ export default function App() {
 					// Other errors: retry with exponential backoff (500ms, 1s)
 					if (err instanceof Error) {
 						if (attempt >= maxAttempts) {
-							const msg =
-								typeof err?.message === "string"
-									? err.message
-									: "Something went wrong";
+							const msg = err.message;
 							setStatusMsg(`Failed: ${msg}`);
 							break;
 						}

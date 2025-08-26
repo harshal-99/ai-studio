@@ -2,8 +2,12 @@
 export async function fileToDataURL(file: File): Promise<string> {
 	return new Promise((resolve, reject) => {
 		const fr = new FileReader();
-		fr.onerror = () => reject(fr.error);
-		fr.onload = () => resolve(String(fr.result));
+		fr.onerror = () => {
+			reject(fr.error)
+		};
+		fr.onload = () => {
+			resolve(String(fr.result))
+		};
 		fr.readAsDataURL(file);
 	});
 }
@@ -29,8 +33,12 @@ export async function downscaleDataURL(
 function loadImage(src: string): Promise<HTMLImageElement> {
 	return new Promise((resolve, reject) => {
 		const img = new Image();
-		img.onload = () => resolve(img);
-		img.onerror = () => reject(new Error("Failed to load image"));
+		img.onload = () => {
+			resolve(img)
+		};
+		img.onerror = () => {
+			reject(new Error("Failed to load image"))
+		};
 		img.src = src;
 	});
 }

@@ -11,7 +11,9 @@ export const UploadInput: FC<UploadInputProps> = ({fileError, inputDataUrl, onDr
 	return <div>
 		<label
 			htmlFor="file"
-			onDragOver={(e) => e.preventDefault()}
+			onDragOver={(e) => {
+				e.preventDefault()
+			}}
 			onDrop={onDrop}
 			className="flex cursor-pointer items-center justify-center rounded-lg border border-dashed border-gray-300 bg-white p-6 text-center hover:bg-gray-50 focus-within:ring-2 focus-within:ring-blue-500"
 			aria-label="Upload an image"
