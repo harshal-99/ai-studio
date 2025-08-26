@@ -8,6 +8,7 @@ import {UploadInput} from "./components/UploadInput.tsx";
 import {OutputPreview} from "./components/OutputPreview.tsx";
 import {ActionCTA} from "./components/ActionCTA.tsx";
 import {Prompt} from "./components/Prompt.tsx";
+import {LiveSummary} from "./components/LiveSummary.tsx";
 
 
 export default function App() {
@@ -112,14 +113,17 @@ export default function App() {
 						break;
 					}
 					// Other errors: retry with exponential backoff (500ms, 1s)
-					if (attempt >= maxAttempts) {
-						const msg =
-							typeof (err as any)?.message === "string"
-								? (err as any).message
-								: "Something went wrong";
-						setStatusMsg(`Failed: ${msg}`);
-						break;
+					if (err instanceof Error) {
+						if (attempt >= maxAttempts) {
+							const msg =
+								typeof err?.message === "string"
+									? err.message
+									: "Something went wrong";
+							setStatusMsg(`Failed: ${msg}`);
+							break;
+						}
 					}
+
 					const delay = 500 * 2 ** (attempt - 1);
 					await sleep(delay);
 				}
@@ -162,40 +166,11 @@ export default function App() {
 					<section className="md:col-span-2 space-y-4">
 						<UploadInput fileError={fileError} inputDataUrl={inputDataUrl} onDrop={onDrop}
 						             onFileInputChange={onFileInputChange}/>
-						
+
 						<Prompt prompt={prompt} style={style} setPrompt={setPrompt} setStyle={setStyle}/>
 
-						{/* Live Summary */}
-						<div
-							className="rounded-lg border bg-white p-4"
-							aria-live="polite"
-							aria-atomic="true"
-						>
-							<h2 className="mb-2 font-semibold">Summary</h2>
-							<div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-								<div className="sm:w-48">
-									{inputDataUrl ? (
-										<img
-											src={inputDataUrl}
-											alt="Current input"
-											className="h-32 w-auto rounded-md border"
-										/>
-									) : (
-										<div className="flex h-32 items-center justify-center rounded-md border text-sm text-gray-500">
-											No image
-										</div>
-									)}
-								</div>
-								<div className="flex-1">
-									<p>
-										<span className="font-medium">Prompt:</span> {prompt || "—"}
-									</p>
-									<p>
-										<span className="font-medium">Style:</span> {style}
-									</p>
-								</div>
-							</div>
-						</div>
+
+						<LiveSummary inputDataUrl={inputDataUrl} prompt={prompt} style={style}/>
 						<ActionCTA isLoading={isLoading} statusMsg={statusMsg} canGenerate={canGenerate} onGenerate={onGenerate}
 						           onAbort={onAbort}/>
 
