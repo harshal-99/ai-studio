@@ -7,8 +7,8 @@ import {History} from "./components/History.tsx";
 import {UploadInput} from "./components/UploadInput.tsx";
 import {OutputPreview} from "./components/OutputPreview.tsx";
 import {ActionCTA} from "./components/ActionCTA.tsx";
+import {Prompt} from "./components/Prompt.tsx";
 
-const STYLES: StyleOption[] = ["Editorial", "Streetwear", "Vintage"];
 
 export default function App() {
 	// Upload state
@@ -162,39 +162,8 @@ export default function App() {
 					<section className="md:col-span-2 space-y-4">
 						<UploadInput fileError={fileError} inputDataUrl={inputDataUrl} onDrop={onDrop}
 						             onFileInputChange={onFileInputChange}/>
-
-						{/* Prompt & Style */}
-						<div className="grid gap-3 sm:grid-cols-3">
-							<div className="sm:col-span-2">
-								<label htmlFor="prompt" className="block text-sm font-medium">
-									Prompt
-								</label>
-								<input
-									id="prompt"
-									value={prompt}
-									onChange={(e) => setPrompt(e.target.value)}
-									placeholder="e.g., ‘denim jacket with embroidered cranes’"
-									className="mt-1 w-full rounded-md border border-gray-300 bg-white p-2"
-								/>
-							</div>
-							<div>
-								<label htmlFor="style" className="block text-sm font-medium">
-									Style
-								</label>
-								<select
-									id="style"
-									value={style}
-									onChange={(e) => setStyle(e.target.value as StyleOption)}
-									className="mt-1 w-full rounded-md border border-gray-300 bg-white p-2"
-								>
-									{STYLES.map((s) => (
-										<option key={s} value={s}>
-											{s}
-										</option>
-									))}
-								</select>
-							</div>
-						</div>
+						
+						<Prompt prompt={prompt} style={style} setPrompt={setPrompt} setStyle={setStyle}/>
 
 						{/* Live Summary */}
 						<div
